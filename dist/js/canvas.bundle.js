@@ -146,10 +146,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var canvas = document.querySelector('canvas');
+var canvas = document.querySelector("canvas");
 canvas.width = 1024;
 canvas.height = 576;
-var c = canvas.getContext('2d');
+var c = canvas.getContext("2d");
 var gravity = 0.5; // create player
 
 var Player = /*#__PURE__*/function () {
@@ -172,7 +172,7 @@ var Player = /*#__PURE__*/function () {
     key: "draw",
     value: function draw() {
       c.fillRect(this.position.x, this.position.y, this.width = 100, this.height = 100);
-      c.fillStyle = 'red';
+      c.fillStyle = "red";
     }
   }, {
     key: "update",
@@ -244,14 +244,13 @@ var GenericObject = /*#__PURE__*/function () {
   return GenericObject;
 }();
 
-var player = new Player();
-
 function createImage(imgSrc) {
   var image = new Image();
   image.src = imgSrc;
   return image;
 }
 
+var player = new Player();
 var platforms = [new Platform({
   x: 0,
   y: 450,
@@ -278,6 +277,38 @@ var genericobjects = [new GenericObject({
   y: -1,
   image: createImage(_images_hills_png__WEBPACK_IMPORTED_MODULE_1__["default"])
 })];
+
+function init() {
+  player = new Player();
+  platforms = [new Platform({
+    x: 0,
+    y: 450,
+    image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+  }), new Platform({
+    x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2,
+    y: 450,
+    image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+  }), new Platform({
+    x: (createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2) * 2,
+    y: 450,
+    image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+  }), new Platform({
+    x: (createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width + 50) * 3,
+    y: 450,
+    image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+  })];
+  genericobjects = [new GenericObject({
+    x: -1,
+    y: -1,
+    image: createImage(_images_background_png__WEBPACK_IMPORTED_MODULE_2__["default"])
+  }), new GenericObject({
+    x: -1,
+    y: -1,
+    image: createImage(_images_hills_png__WEBPACK_IMPORTED_MODULE_1__["default"])
+  })];
+  scrollOffset = 0;
+}
+
 var keys = {
   right: {
     pressed: false
@@ -330,55 +361,59 @@ function animate() {
     if (player.height + player.position.y <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
       player.velocity.y = 0;
     }
-  });
-  console.log(scrollOffset);
+  }); // win condition
 
-  if (scrollOffset > 2000) {
+  if (scrollOffset > 200000) {
     console.log("You win!");
+  } //lose condition
+
+
+  if (player.position.y > canvas.height) {
+    init();
   }
 }
 
 animate();
-window.addEventListener('keydown', function (_ref3) {
+window.addEventListener("keydown", function (_ref3) {
   var keyCode = _ref3.keyCode;
 
   switch (keyCode) {
     case 65:
       keys.left.pressed = true;
-      console.log('This is left');
+      console.log("This is left");
       break;
 
     case 68:
       keys.right.pressed = true;
-      console.log('This is right');
+      console.log("This is right");
       break;
 
     case 87:
       player.velocity.y -= 40;
-      console.log('This is up');
+      console.log("This is up");
       break;
 
     default:
       break;
   }
 });
-window.addEventListener('keyup', function (_ref4) {
+window.addEventListener("keyup", function (_ref4) {
   var keyCode = _ref4.keyCode;
 
   switch (keyCode) {
     case 65:
       keys.left.pressed = false;
-      console.log('This is left');
+      console.log("This is left");
       break;
 
     case 68:
       keys.right.pressed = false;
-      console.log('This is right');
+      console.log("This is right");
       break;
 
     case 87:
       player.velocity.y = 0;
-      console.log('This is up');
+      console.log("This is up");
       break;
 
     default:
