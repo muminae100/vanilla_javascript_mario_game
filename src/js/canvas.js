@@ -1,4 +1,7 @@
 import platform from '../images/platform.png';
+import hills from '../images/hills.png';
+import background from '../images/background.png';
+
 
 const canvas = document.querySelector('canvas');
 
@@ -24,8 +27,8 @@ class Player {
     }
 
     draw(){
-        c.fillStyle = 'red'
-        c.fillRect(this.position.x, this.position.y, this.width = 100, this.height = 100)
+      c.fillRect(this.position.x, this.position.y, this.width = 100, this.height = 100)
+      c.fillStyle = 'red';
     }
     update(){
         this.draw();
@@ -57,29 +60,65 @@ class Platform {
     }
 }
 
+class GenericObject {
+  constructor({ x, y, image }){
+      this.position = {
+          x: x,
+          y: y
+      }
+      this.image = image
+
+      this.width = this.image.width
+      this.height = this.image.height
+
+  }
+  draw(){
+      c.drawImage(this.image, this.position.x, this.position.y)
+  }
+}
+
 const player = new Player();
 
-const image = new Image();
-image.src = platform
+function createImage(imgSrc) {
+  const image = new Image();
+  image.src = imgSrc
+  return image;
+}
+
 
 const platforms = [new Platform(
     {   
         x: 0,
         y: 450,
-        image: image
+        image: createImage(platform)
     }
 ),new Platform(
     {   
-        x: image.width -2,
+        x: createImage(platform).width -2,
         y: 450,
-        image: image
+        image: createImage(platform)
     }
 ),new Platform(
     {   
-        x: (image.width -2)*2,
+        x: (createImage(platform).width -2)*2,
         y: 450,
-        image: image
+        image: createImage(platform)
     }
+)]
+
+const genericobjects = [new GenericObject(
+  {   
+      x: -1,
+      y: -1,
+      image: createImage(background)
+  }
+),
+new GenericObject(
+  {   
+      x: -1,
+      y: -1,
+      image: createImage(hills)
+  }
 )]
 
 const keys = {
@@ -95,9 +134,12 @@ let scrollOffset = 0;
 
 function animate(){
     requestAnimationFrame(animate);
-    c.fillStyle = 'blue';
     c.fillRect(0, 0, canvas.width, canvas.height);
     
+    genericobjects.forEach(obj => {
+      obj.draw();
+    });
+
     platforms.forEach(platform =>{
         platform.draw()
     })
@@ -117,10 +159,16 @@ function animate(){
             platforms.forEach(platform =>{
                 platform.position.x -= 5;
             })
+            genericobjects.forEach(obj =>{
+              obj.position.x -= 3;
+            })
         }else if(keys.left.pressed){
             scrollOffset -= 5;
             platforms.forEach(platform =>{
                 platform.position.x += 5;
+            })
+            genericobjects.forEach(obj =>{
+              obj.position.x += 3;
             })
         }
     }

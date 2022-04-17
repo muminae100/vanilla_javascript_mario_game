@@ -86,6 +86,32 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/images/background.png":
+/*!***********************************!*\
+  !*** ./src/images/background.png ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "072d51bcc9c09311d4c2a6708b05bddc.png");
+
+/***/ }),
+
+/***/ "./src/images/hills.png":
+/*!******************************!*\
+  !*** ./src/images/hills.png ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "cfffe4c371f5e11d372b398a87c51dd0.png");
+
+/***/ }),
+
 /***/ "./src/images/platform.png":
 /*!*********************************!*\
   !*** ./src/images/platform.png ***!
@@ -109,11 +135,15 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../images/platform.png */ "./src/images/platform.png");
+/* harmony import */ var _images_hills_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/hills.png */ "./src/images/hills.png");
+/* harmony import */ var _images_background_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/background.png */ "./src/images/background.png");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 
 var canvas = document.querySelector('canvas');
@@ -141,8 +171,8 @@ var Player = /*#__PURE__*/function () {
   _createClass(Player, [{
     key: "draw",
     value: function draw() {
-      c.fillStyle = 'red';
       c.fillRect(this.position.x, this.position.y, this.width = 100, this.height = 100);
+      c.fillStyle = 'red';
     }
   }, {
     key: "update",
@@ -189,21 +219,62 @@ var Platform = /*#__PURE__*/function () {
   return Platform;
 }();
 
+var GenericObject = /*#__PURE__*/function () {
+  function GenericObject(_ref2) {
+    var x = _ref2.x,
+        y = _ref2.y,
+        image = _ref2.image;
+
+    _classCallCheck(this, GenericObject);
+
+    this.position = {
+      x: x,
+      y: y
+    };
+    this.image = image;
+    this.width = this.image.width;
+    this.height = this.image.height;
+  }
+
+  _createClass(GenericObject, [{
+    key: "draw",
+    value: function draw() {
+      c.drawImage(this.image, this.position.x, this.position.y);
+    }
+  }]);
+
+  return GenericObject;
+}();
+
 var player = new Player();
-var image = new Image();
-image.src = _images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"];
+
+function createImage(imgSrc) {
+  var image = new Image();
+  image.src = imgSrc;
+  return image;
+}
+
 var platforms = [new Platform({
   x: 0,
   y: 450,
-  image: image
+  image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
 }), new Platform({
-  x: image.width - 2,
+  x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2,
   y: 450,
-  image: image
+  image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
 }), new Platform({
-  x: (image.width - 2) * 2,
+  x: (createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2) * 2,
   y: 450,
-  image: image
+  image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+})];
+var genericobjects = [new GenericObject({
+  x: -1,
+  y: -1,
+  image: createImage(_images_background_png__WEBPACK_IMPORTED_MODULE_2__["default"])
+}), new GenericObject({
+  x: -1,
+  y: -1,
+  image: createImage(_images_hills_png__WEBPACK_IMPORTED_MODULE_1__["default"])
 })];
 var keys = {
   right: {
@@ -217,8 +288,10 @@ var scrollOffset = 0;
 
 function animate() {
   requestAnimationFrame(animate);
-  c.fillStyle = 'blue';
   c.fillRect(0, 0, canvas.width, canvas.height);
+  genericobjects.forEach(function (obj) {
+    obj.draw();
+  });
   platforms.forEach(function (platform) {
     platform.draw();
   });
@@ -236,10 +309,16 @@ function animate() {
       platforms.forEach(function (platform) {
         platform.position.x -= 5;
       });
+      genericobjects.forEach(function (obj) {
+        obj.position.x -= 3;
+      });
     } else if (keys.left.pressed) {
       scrollOffset -= 5;
       platforms.forEach(function (platform) {
         platform.position.x += 5;
+      });
+      genericobjects.forEach(function (obj) {
+        obj.position.x += 3;
       });
     }
   } // platforms collision detection
@@ -258,8 +337,8 @@ function animate() {
 }
 
 animate();
-window.addEventListener('keydown', function (_ref2) {
-  var keyCode = _ref2.keyCode;
+window.addEventListener('keydown', function (_ref3) {
+  var keyCode = _ref3.keyCode;
 
   switch (keyCode) {
     case 65:
@@ -281,8 +360,8 @@ window.addEventListener('keydown', function (_ref2) {
       break;
   }
 });
-window.addEventListener('keyup', function (_ref3) {
-  var keyCode = _ref3.keyCode;
+window.addEventListener('keyup', function (_ref4) {
+  var keyCode = _ref4.keyCode;
 
   switch (keyCode) {
     case 65:
