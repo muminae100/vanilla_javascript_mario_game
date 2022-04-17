@@ -1,7 +1,9 @@
+import platform from '../images/platform.png';
+
 const canvas = document.querySelector('canvas');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 1024;
+canvas.height = 576;
 
 const c = canvas.getContext('2d');
 
@@ -39,36 +41,44 @@ class Player {
 }
 
 class Platform {
-    constructor({ x, y }){
+    constructor({ x, y, image }){
         this.position = {
             x: x,
             y: y
         }
-        this.width = 200
-        this.height = 20
+        this.image = image
+
+        this.width = this.image.width
+        this.height = this.image.height
+
     }
     draw(){
-        c.fillStyle = 'blue';
-        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+        c.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
 const player = new Player();
 
+const image = new Image();
+image.src = platform
+
 const platforms = [new Platform(
     {   
-        x: 200,
-        y: 250
+        x: 0,
+        y: 450,
+        image: image
     }
 ),new Platform(
     {   
-        x: 500,
-        y: 400
+        x: image.width -2,
+        y: 450,
+        image: image
     }
 ),new Platform(
     {   
-        x: 800,
-        y: 300
+        x: (image.width -2)*2,
+        y: 450,
+        image: image
     }
 )]
 
@@ -85,12 +95,14 @@ let scrollOffset = 0;
 
 function animate(){
     requestAnimationFrame(animate);
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    player.update();
-
+    c.fillStyle = 'blue';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+    
     platforms.forEach(platform =>{
         platform.draw()
     })
+
+    player.update();
 
     if(keys.right.pressed && player.position.x < 400){
         player.velocity.x = 5;
