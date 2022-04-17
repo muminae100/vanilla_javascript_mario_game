@@ -11,8 +11,8 @@ import spriteStandRight from "../images/spriteStandRight.png";
 
 const canvas = document.querySelector("canvas");
 
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 const c = canvas.getContext("2d");
 
@@ -135,42 +135,42 @@ function init() {
     }),
     new Platform({
       x: 0,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width - 2,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 2 + 100,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 3 + 300,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 4 + 500,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 5 + 700,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 6 + 700 -2,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     }),
     new Platform({
       x: createImage(platform).width * 7 + 700 -3,
-      y: 450,
+      y: 500,
       image: createImage(platform),
     })
   ];

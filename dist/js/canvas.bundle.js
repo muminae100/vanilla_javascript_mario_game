@@ -222,8 +222,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var canvas = document.querySelector("canvas");
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 var c = canvas.getContext("2d");
 var gravity = 0.5; // create player
 
@@ -363,35 +363,35 @@ function init() {
     image: createImage(_images_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"])
   }), new Platform({
     x: 0,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 2 + 100,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 3 + 300,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 4 + 500,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 5 + 700,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 6 + 700 - 2,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   }), new Platform({
     x: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width * 7 + 700 - 3,
-    y: 450,
+    y: 500,
     image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
   })];
   genericobjects = [new GenericObject({
