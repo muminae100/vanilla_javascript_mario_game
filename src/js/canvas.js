@@ -3,6 +3,12 @@ import hills from "../images/hills.png";
 import background from "../images/background.png";
 import platformSmallTall from "../images/platformSmallTall.png";
 
+import spriteRunLeft from "../images/spriteRunLeft.png";
+import spriteRunRight from "../images/spriteRunRight.png";
+import spriteStandLeft from "../images/spriteStandLeft.png";
+import spriteStandRight from "../images/spriteStandRight.png";
+
+
 const canvas = document.querySelector("canvas");
 
 canvas.width = 1024;
@@ -23,20 +29,50 @@ class Player {
       x: 0,
       y: 0,
     };
-    this.width = 20;
-    this.height = 20;
+    this.width = 66;
+    this.height = 150;
+    this.image = createImage(spriteStandRight);
+    this.frames = 0
+    this.sprites = {
+      stand:{
+        right: createImage(spriteStandRight),
+        cropWidth: 177,
+        width: 66,
+        left: createImage(spriteStandLeft)
+      },
+      run: {
+        right: createImage(spriteRunRight),
+        cropWidth: 341,
+        width: 127.875,
+        left: createImage(spriteRunLeft)
+      }
+    }
+
+    this.currentSprite = this.sprites.stand.right
+    this.currentCropWidth = 177
   }
 
   draw() {
-    c.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-    c.fillStyle = "red";
+    c.drawImage(
+    this.currentSprite, 
+    this.currentCropWidth * this.frames,
+    0,
+    this.currentCropWidth,
+    400,
+    this.position.x, 
+    this.position.y,
+    this.width, 
+    this.height);
   }
   update() {
+    this.frames++
+    if(this.frames > 59 && (this.currentSprite === this.sprites.stand.right
+      || this.currentSprite === player.sprites.stand.left )){
+      this.frames = 0;
+    }else if(this.frames > 29 && (this.currentSprite === this.sprites.run.right
+      || this.currentSprite === player.sprites.run.left )){
+      this.frames = 0;
+    }
     this.draw();
     this.position.y += this.velocity.y;
     this.position.x += this.velocity.x;
@@ -182,7 +218,8 @@ function animate() {
 
   if (keys.right.pressed && player.position.x < 400) {
     player.velocity.x = player.speed;
-  } else if (keys.left.pressed && player.position.x > 100) {
+  } else if (keys.left.pressed && player.position.x > 100
+    || keys.left.pressed && scrollOffset === 0 && player.position.x > 0) {
     player.velocity.x = -player.speed;
   } else {
     player.velocity.x = 0;
@@ -194,7 +231,7 @@ function animate() {
       genericobjects.forEach((obj) => {
         obj.position.x -= player.speed * 0.66;
       });
-    } else if (keys.left.pressed) {
+    } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
       platforms.forEach((platform) => {
         platform.position.x += player.speed;
@@ -236,10 +273,16 @@ window.addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
       keys.left.pressed = true;
+      player.currentSprite = player.sprites.run.left
+      player.currentCropWidth = player.sprites.run.cropWidth
+      player.width = player.sprites.run.width
       console.log("This is left");
       break;
     case 68:
       keys.right.pressed = true;
+      player.currentSprite = player.sprites.run.right
+      player.currentCropWidth = player.sprites.run.cropWidth
+      player.width = player.sprites.run.width
       console.log("This is right");
       break;
     case 87:
@@ -256,10 +299,16 @@ window.addEventListener("keyup", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
       keys.left.pressed = false;
+      player.currentSprite = player.sprites.stand.left
+      player.currentCropWidth = player.sprites.stand.cropWidth
+      player.width = player.sprites.stand.width
       console.log("This is left");
       break;
     case 68:
       keys.right.pressed = false;
+      player.currentSprite = player.sprites.stand.right
+      player.currentCropWidth = player.sprites.stand.cropWidth
+      player.width = player.sprites.stand.width
       console.log("This is right");
       break;
 
