@@ -37,8 +37,6 @@ class Player {
         if(this.position.y + this.height +
             this.velocity.y <= canvas.height){
             this.velocity.y += gravity;
-        }else{
-            this.velocity.y = 0;
         }
     }
 }
@@ -104,6 +102,12 @@ const platforms = [new Platform(
         y: 450,
         image: createImage(platform)
     }
+),new Platform(
+  {   
+      x: (createImage(platform).width + 50)* 3,
+      y: 450,
+      image: createImage(platform)
+  }
 )]
 
 const genericobjects = [new GenericObject(
@@ -203,7 +207,7 @@ window.addEventListener('keydown', ( { keyCode } )=>{
             console.log('This is right');
             break;
         case 87:
-            player.velocity.y -= 20;
+            player.velocity.y -= 40;
             console.log('This is up');
             break;
     

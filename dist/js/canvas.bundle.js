@@ -183,8 +183,6 @@ var Player = /*#__PURE__*/function () {
 
       if (this.position.y + this.height + this.velocity.y <= canvas.height) {
         this.velocity.y += gravity;
-      } else {
-        this.velocity.y = 0;
       }
     }
   }]);
@@ -264,6 +262,10 @@ var platforms = [new Platform({
   image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
 }), new Platform({
   x: (createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width - 2) * 2,
+  y: 450,
+  image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
+}), new Platform({
+  x: (createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]).width + 50) * 3,
   y: 450,
   image: createImage(_images_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"])
 })];
@@ -352,7 +354,7 @@ window.addEventListener('keydown', function (_ref3) {
       break;
 
     case 87:
-      player.velocity.y -= 20;
+      player.velocity.y -= 40;
       console.log('This is up');
       break;
 
